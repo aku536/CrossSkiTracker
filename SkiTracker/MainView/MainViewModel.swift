@@ -13,8 +13,18 @@ final class MainViewModel: ObservableObject, Identifiable {
   @Published var date = Date()
   @Published var distance = Measurement(value: 0, unit: UnitLength.kilometers)
 
+  func didTapLocation() {
+    if isTracking {
+      locationService.stopLocating()
+    } else {
+      Task { await locationService.startLocating() }
+    }
+    isTracking.toggle()
+  }
+
   private var timer: Timer?
   private var startTime = Date()
+  private var isTracking = false
 
   private let locationService = LocationService()
 

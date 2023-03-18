@@ -11,27 +11,22 @@ import Foundation
 final class LocationService: NSObject {
 
   let locationManager = CLLocationManager()
-  var startLocation: CLLocation!
-  var lastLocation: CLLocation!
+  var startLocation: CLLocation?
+  var previousLocation: CLLocation?
   var traveledDistance: Double = 0
 
-  override init() {
-    super.init()
-    Task {
-      await startLocate()
-    }
-
-  }
-
-  private func startLocate() async {
+  func startLocating() async {
     if CLLocationManager.locationServicesEnabled() {
       locationManager.delegate = self
       locationManager.desiredAccuracy = kCLLocationAccuracyBest
       locationManager.requestAlwaysAuthorization()
       locationManager.startUpdatingLocation()
-      locationManager.startMonitoringSignificantLocationChanges()
-      locationManager.distanceFilter = 100
     }
+  }
+
+  func stopLocating() {
+    locationManager.stopUpdatingLocation()
+    startLocation = nil
   }
 
   func getDistance() -> Double {
@@ -41,20 +36,21 @@ final class LocationService: NSObject {
 
 extension LocationService: CLLocationManagerDelegate {
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    if startLocation == nil {
+    guard let startLocation else {
       startLocation = locations.first
-    } else if let location = locations.last {
-      traveledDistance += lastLocation.distance(from: location)
-      print("Traveled Distance:",  traveledDistance)
-      print("Straight Distance:", startLocation.distance(from: locations.last!))
+      return
     }
-    lastLocation = locations.last
+    if let lastLocation = locations.last {
+      traveledDistance += previousLocation?.distance(from: lastLocation) ?? 0
+      print("Traveled Distance:", traveledDistance)
+      print("Straight Distance:", startLocation.distance(from: lastLocation))
+    }
+    previousLocation = locations.last
   }
 
   func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
     if (error as? CLError)?.code == .denied {
       manager.stopUpdatingLocation()
-      manager.stopMonitoringSignificantLocationChanges()
     }
   }
 }

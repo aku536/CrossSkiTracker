@@ -12,8 +12,9 @@
 		D21F189529C4C50600031FE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D21F189429C4C50600031FE3 /* Assets.xcassets */; };
 		D21F189829C4C50600031FE3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D21F189729C4C50600031FE3 /* Preview Assets.xcassets */; };
 		D21F1DB729C4F0BC00031FE3 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21F1DB629C4F0BC00031FE3 /* MainViewModel.swift */; };
+		D2201FC929C654B2006C5C42 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2201FC829C654B2006C5C42 /* MapView.swift */; };
+		D2201FCD29C65521006C5C42 /* trassa2021-2022.gpx in Resources */ = {isa = PBXBuildFile; fileRef = D2201FCC29C65521006C5C42 /* trassa2021-2022.gpx */; };
 		D241003429C4FC2300BBCE39 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D241003329C4FC2300BBCE39 /* LocationService.swift */; };
-		D2F10DB629C4FF8C00923352 /* Route.gpx in Resources */ = {isa = PBXBuildFile; fileRef = D2F10DB529C4FF8C00923352 /* Route.gpx */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,8 +24,9 @@
 		D21F189429C4C50600031FE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D21F189729C4C50600031FE3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D21F1DB629C4F0BC00031FE3 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		D2201FC829C654B2006C5C42 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		D2201FCC29C65521006C5C42 /* trassa2021-2022.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "trassa2021-2022.gpx"; sourceTree = "<group>"; };
 		D241003329C4FC2300BBCE39 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
-		D2F10DB529C4FF8C00923352 /* Route.gpx */ = {isa = PBXFileReference; lastKnownFileType = file; path = Route.gpx; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,11 +60,10 @@
 			isa = PBXGroup;
 			children = (
 				D21F189029C4C50500031FE3 /* SkiTrackerApp.swift */,
-				D21F189229C4C50500031FE3 /* MainView.swift */,
-				D21F1DB629C4F0BC00031FE3 /* MainViewModel.swift */,
-				D241003329C4FC2300BBCE39 /* LocationService.swift */,
-				D2F10DB529C4FF8C00923352 /* Route.gpx */,
-				D21F189429C4C50600031FE3 /* Assets.xcassets */,
+				D2201FC729C654A4006C5C42 /* MapView */,
+				D2201FC629C65481006C5C42 /* MainView */,
+				D2201FCA29C654F5006C5C42 /* Services */,
+				D2201FCB29C6550E006C5C42 /* Helpers */,
 				D21F189629C4C50600031FE3 /* Preview Content */,
 			);
 			path = SkiTracker;
@@ -74,6 +75,40 @@
 				D21F189729C4C50600031FE3 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D2201FC629C65481006C5C42 /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				D21F189229C4C50500031FE3 /* MainView.swift */,
+				D21F1DB629C4F0BC00031FE3 /* MainViewModel.swift */,
+			);
+			path = MainView;
+			sourceTree = "<group>";
+		};
+		D2201FC729C654A4006C5C42 /* MapView */ = {
+			isa = PBXGroup;
+			children = (
+				D2201FC829C654B2006C5C42 /* MapView.swift */,
+			);
+			path = MapView;
+			sourceTree = "<group>";
+		};
+		D2201FCA29C654F5006C5C42 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				D241003329C4FC2300BBCE39 /* LocationService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		D2201FCB29C6550E006C5C42 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				D2201FCC29C65521006C5C42 /* trassa2021-2022.gpx */,
+				D21F189429C4C50600031FE3 /* Assets.xcassets */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,7 +170,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D21F189829C4C50600031FE3 /* Preview Assets.xcassets in Resources */,
-				D2F10DB629C4FF8C00923352 /* Route.gpx in Resources */,
+				D2201FCD29C65521006C5C42 /* trassa2021-2022.gpx in Resources */,
 				D21F189529C4C50600031FE3 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -149,6 +184,7 @@
 			files = (
 				D21F189329C4C50500031FE3 /* MainView.swift in Sources */,
 				D21F189129C4C50500031FE3 /* SkiTrackerApp.swift in Sources */,
+				D2201FC929C654B2006C5C42 /* MapView.swift in Sources */,
 				D241003429C4FC2300BBCE39 /* LocationService.swift in Sources */,
 				D21F1DB729C4F0BC00031FE3 /* MainViewModel.swift in Sources */,
 			);
