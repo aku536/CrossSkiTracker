@@ -20,7 +20,7 @@ struct MainView: View {
             viewModel.didTapLocation()
           }
         NavigationLink(destination: {
-          MapView()
+          viewModel.didTapMapOpen()
         }) {
           Text("Открыть карту")
         }
