@@ -22,6 +22,10 @@ final class LocationService: NSObject {
     return sortedByAltitude.first!.altitude - sortedByAltitude.last!.altitude
   }
 
+  var maxSpeed: CLLocationSpeed {
+    return route.max { $0.speed > $1.speed }?.speed ?? 0
+  }
+
   func startLocating() async {
     if CLLocationManager.locationServicesEnabled() {
       locationManager.delegate = self
