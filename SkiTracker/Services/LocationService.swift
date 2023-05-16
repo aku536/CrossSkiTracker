@@ -16,6 +16,12 @@ final class LocationService: NSObject {
   var traveledDistance: Double = 0
   var route: [CLLocation] = []
 
+  var elevation: CLLocationDistance {
+    guard !route.isEmpty else { return 0 }
+    let sortedByAltitude = route.sorted(by: { $0.altitude > $1.altitude })
+    return sortedByAltitude.first!.altitude - sortedByAltitude.last!.altitude
+  }
+
   func startLocating() async {
     if CLLocationManager.locationServicesEnabled() {
       locationManager.delegate = self

@@ -16,6 +16,17 @@ final class MainViewModel: ObservableObject, Identifiable {
 
   @Published var date = Date()
   @Published var distance = Measurement(value: 0, unit: UnitLength.kilometers)
+  @Published var elevation = Measurement(value: 0, unit: UnitLength.meters)
+  @Published var inProgress = false {
+    didSet {
+      if inProgress {
+        startTime = Date()
+        timer.store(in: &disposables)
+      } else {
+        date = Date()
+      }
+    }
+  }
 
   func didTapLocation() {
     if isTracking {
@@ -32,25 +43,20 @@ final class MainViewModel: ObservableObject, Identifiable {
     return MapView(viewModel: viewModel)
   }
 
-  // MARK: - Init
-
-  init() {
-    newTimer.store(in: &disposables)
-  }
-
   // MARK: - Private
 
-  private var timer: Timer?
   private var startTime = Date()
   private var isTracking = false
   private var disposables = Set<AnyCancellable>()
 
   private let locationService = LocationService()
 
-  private lazy var newTimer = Timer.publish(every: 1, tolerance: 0.1, on: .current, in: .common).autoconnect()
+  private lazy var timer = Timer.publish(every: 1, tolerance: 0.1, on: .current, in: .common)
+    .autoconnect()
     .sink { [weak self] _ in
       guard let self else { return }
       self.date = Date(timeInterval: 0, since: self.startTime)
       self.distance.value = self.locationService.getDistance() / 1000
+      self.elevation.value = self.locationService.elevation
     }
 }
