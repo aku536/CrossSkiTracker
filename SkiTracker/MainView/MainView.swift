@@ -45,6 +45,7 @@ struct MainView: View {
   private var startButton: some View {
     Button(action: {
       viewModel.inProgress = true
+      Haptics.shared.play(.heavy)
     }, label: {
       Text("Старт")
         .foregroundColor(.white)
@@ -57,6 +58,7 @@ struct MainView: View {
   private var stopButton: some View {
     Button(action: {
       viewModel.inProgress = false
+      Haptics.shared.notify(.success)
     }, label: {
       Text("Стоп")
         .foregroundColor(.white)

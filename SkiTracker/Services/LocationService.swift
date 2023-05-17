@@ -23,7 +23,8 @@ final class LocationService: NSObject {
   }
 
   var maxSpeed: CLLocationSpeed {
-    return route.max { $0.speed > $1.speed }?.speed ?? 0
+    let maxSpeed = route.max { $0.speed < $1.speed }?.speed ?? 0
+    return max(0, maxSpeed) * 3.6
   }
 
   func startLocating() async {

@@ -12,6 +12,7 @@
 		D21F189529C4C50600031FE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D21F189429C4C50600031FE3 /* Assets.xcassets */; };
 		D21F189829C4C50600031FE3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D21F189729C4C50600031FE3 /* Preview Assets.xcassets */; };
 		D21F1DB729C4F0BC00031FE3 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21F1DB629C4F0BC00031FE3 /* MainViewModel.swift */; };
+		D21FF3F42A15522F00CA9154 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21FF3F32A15522F00CA9154 /* Haptics.swift */; };
 		D2201FC929C654B2006C5C42 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2201FC829C654B2006C5C42 /* MapView.swift */; };
 		D2201FCD29C65521006C5C42 /* trassa2021-2022.gpx in Resources */ = {isa = PBXBuildFile; fileRef = D2201FCC29C65521006C5C42 /* trassa2021-2022.gpx */; };
 		D241003429C4FC2300BBCE39 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D241003329C4FC2300BBCE39 /* LocationService.swift */; };
@@ -25,6 +26,8 @@
 		D21F189429C4C50600031FE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D21F189729C4C50600031FE3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D21F1DB629C4F0BC00031FE3 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		D21FF3F02A154E1E00CA9154 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D21FF3F32A15522F00CA9154 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
 		D2201FC829C654B2006C5C42 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		D2201FCC29C65521006C5C42 /* trassa2021-2022.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "trassa2021-2022.gpx"; sourceTree = "<group>"; };
 		D241003329C4FC2300BBCE39 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
@@ -61,11 +64,13 @@
 		D21F188F29C4C50500031FE3 /* SkiTracker */ = {
 			isa = PBXGroup;
 			children = (
+				D21FF3F02A154E1E00CA9154 /* Info.plist */,
 				D21F189029C4C50500031FE3 /* SkiTrackerApp.swift */,
 				D2201FC729C654A4006C5C42 /* MapView */,
 				D2201FC629C65481006C5C42 /* MainView */,
 				D2201FCA29C654F5006C5C42 /* Services */,
-				D2201FCB29C6550E006C5C42 /* Helpers */,
+				D21FF3F22A15521700CA9154 /* Helpers */,
+				D2201FCB29C6550E006C5C42 /* MediaFiles */,
 				D21F189629C4C50600031FE3 /* Preview Content */,
 			);
 			path = SkiTracker;
@@ -77,6 +82,14 @@
 				D21F189729C4C50600031FE3 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D21FF3F22A15521700CA9154 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				D21FF3F32A15522F00CA9154 /* Haptics.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		D2201FC629C65481006C5C42 /* MainView */ = {
@@ -105,13 +118,13 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		D2201FCB29C6550E006C5C42 /* Helpers */ = {
+		D2201FCB29C6550E006C5C42 /* MediaFiles */ = {
 			isa = PBXGroup;
 			children = (
 				D2201FCC29C65521006C5C42 /* trassa2021-2022.gpx */,
 				D21F189429C4C50600031FE3 /* Assets.xcassets */,
 			);
-			path = Helpers;
+			path = MediaFiles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,6 +198,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D21FF3F42A15522F00CA9154 /* Haptics.swift in Sources */,
 				D21F189329C4C50500031FE3 /* MainView.swift in Sources */,
 				D21F189129C4C50500031FE3 /* SkiTrackerApp.swift in Sources */,
 				D2201FC929C654B2006C5C42 /* MapView.swift in Sources */,
@@ -322,6 +336,7 @@
 				DEVELOPMENT_TEAM = 75ZPHFWFU7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SkiTracker/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app logs your location. It works best when you allow background location updates. Logged data never leaves the device.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app logs your location. It works best when you allow background location updates. Logged data never leaves the device.";
@@ -356,6 +371,7 @@
 				DEVELOPMENT_TEAM = 75ZPHFWFU7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SkiTracker/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app logs your location. It works best when you allow background location updates. Logged data never leaves the device.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app logs your location. It works best when you allow background location updates. Logged data never leaves the device.";
