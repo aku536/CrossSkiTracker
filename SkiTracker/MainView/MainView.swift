@@ -11,24 +11,99 @@ struct MainView: View {
 
   @ObservedObject var viewModel = MainViewModel()
 
+  // MARK: - Body
+
   var body: some View {
-    NavigationView {
-      VStack {
-        Text(viewModel.date, style: .timer)
-        Text(viewModel.distance, format: .measurement(width: .abbreviated, numberFormatStyle: .number))
-          .onTapGesture {
-            viewModel.didTapLocation()
+    if viewModel.inProgress {
+      NavigationView {
+        VStack {
+          VStack {
+            timerLabel
+            distanceLabel
+            elivationLabel
+            speedLabel
           }
-        NavigationLink(destination: {
-          MapView()
-        }) {
-          Text("Открыть карту")
-        }
+          .font(.largeTitle)
+          .padding()
+
+          NavigationLink(destination: {
+            viewModel.didTapMapOpen()
+          }, label: {
+            Text("Открыть карту")
+          })
+
+          stopButton
+         }
       }
-      .padding()
+    } else {
+      startButton
+    }
+  }
+
+  // MARK: - Приватные свойства
+
+  private var startButton: some View {
+    Button(action: {
+      viewModel.inProgress = true
+    }, label: {
+      Text("Старт")
+        .foregroundColor(.white)
+    })
+    .frame(width: 100, height: 100)
+    .background(.green)
+    .cornerRadius(100/2)
+  }
+
+  private var stopButton: some View {
+    Button(action: {
+      viewModel.inProgress = false
+    }, label: {
+      Text("Стоп")
+        .foregroundColor(.white)
+    })
+    .frame(width: 50, height: 50)
+    .background(.red)
+    .cornerRadius(10)
+  }
+
+  private var timerLabel: some View {
+    VStack {
+      Text(viewModel.date, style: .timer)
+      Text("Время")
+        .font(.body)
+    }
+  }
+
+  private var distanceLabel: some View {
+    VStack {
+      Text(viewModel.distance, format: .measurement(width: .abbreviated, usage: .asProvided))
+      Text("Расстояние")
+        .font(.body)
+    }
+  }
+
+  private var elivationLabel: some View {
+    VStack {
+      Text(viewModel.elevation, format: .measurement(width: .abbreviated,
+                                                     usage: .asProvided,
+                                                     numberFormatStyle: .number))
+      Text("Перепад высот")
+        .font(.body)
+    }
+  }
+
+  private var speedLabel: some View {
+    VStack {
+      Text(viewModel.maxSpeed, format: .measurement(width: .abbreviated,
+                                                    usage: .asProvided,
+                                                    numberFormatStyle: .number))
+      Text("Максимальная скорость")
+        .font(.body)
     }
   }
 }
+
+// MARK: - PreviewProvider
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {

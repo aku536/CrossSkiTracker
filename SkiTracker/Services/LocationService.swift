@@ -14,6 +14,17 @@ final class LocationService: NSObject {
   var startLocation: CLLocation?
   var previousLocation: CLLocation?
   var traveledDistance: Double = 0
+  var route: [CLLocation] = []
+
+  var elevation: CLLocationDistance {
+    guard !route.isEmpty else { return 0 }
+    let sortedByAltitude = route.sorted(by: { $0.altitude > $1.altitude })
+    return sortedByAltitude.first!.altitude - sortedByAltitude.last!.altitude
+  }
+
+  var maxSpeed: CLLocationSpeed {
+    return route.max { $0.speed > $1.speed }?.speed ?? 0
+  }
 
   func startLocating() async {
     if CLLocationManager.locationServicesEnabled() {
@@ -32,18 +43,21 @@ final class LocationService: NSObject {
   func getDistance() -> Double {
     traveledDistance
   }
+
+  func getRoute() -> [CLLocation] {
+    route
+  }
 }
 
 extension LocationService: CLLocationManagerDelegate {
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    guard let startLocation else {
+    route += locations
+    guard startLocation != nil else {
       startLocation = locations.first
       return
     }
     if let lastLocation = locations.last {
       traveledDistance += previousLocation?.distance(from: lastLocation) ?? 0
-      print("Traveled Distance:", traveledDistance)
-      print("Straight Distance:", startLocation.distance(from: lastLocation))
     }
     previousLocation = locations.last
   }
