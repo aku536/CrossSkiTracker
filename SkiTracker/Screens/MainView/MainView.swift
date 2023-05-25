@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainView: View {
 
-  @ObservedObject var viewModel = MainViewModel()
+  @EnvironmentObject var viewModel: MainViewModel
 
   // MARK: - Body
 
@@ -17,6 +17,7 @@ struct MainView: View {
     if viewModel.inProgress {
       NavigationView {
         VStack {
+
           VStack {
             timerLabel
             distanceLabel
@@ -70,7 +71,7 @@ struct MainView: View {
 
   private var timerLabel: some View {
     VStack {
-      Text(viewModel.date, style: .timer)
+      Text(viewModel.trainingTime, style: .timer)
       Text("Время")
         .font(.body)
     }
@@ -78,7 +79,8 @@ struct MainView: View {
 
   private var distanceLabel: some View {
     VStack {
-      Text(viewModel.distance, format: .measurement(width: .abbreviated, usage: .asProvided))
+      Text(Measurement(value: viewModel.trainingModel.distance, unit: UnitLength.kilometers) ,
+           format: .measurement(width: .abbreviated, usage: .asProvided))
       Text("Расстояние")
         .font(.body)
     }
@@ -86,7 +88,7 @@ struct MainView: View {
 
   private var elivationLabel: some View {
     VStack {
-      Text(viewModel.elevation, format: .measurement(width: .abbreviated,
+      Text(Measurement(value: viewModel.trainingModel.elevation, unit: UnitLength.meters), format: .measurement(width: .abbreviated,
                                                      usage: .asProvided,
                                                      numberFormatStyle: .number))
       Text("Перепад высот")
@@ -96,9 +98,9 @@ struct MainView: View {
 
   private var speedLabel: some View {
     VStack {
-      Text(viewModel.maxSpeed, format: .measurement(width: .abbreviated,
+      Text(Measurement(value: viewModel.trainingModel.maxSpeed, unit: UnitSpeed.kilometersPerHour) , format: .measurement(width: .abbreviated,
                                                     usage: .asProvided,
-                                                    numberFormatStyle: .number))
+                                                                  numberFormatStyle: .number))
       Text("Максимальная скорость")
         .font(.body)
     }

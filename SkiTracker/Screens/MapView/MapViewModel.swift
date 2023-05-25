@@ -9,20 +9,25 @@ import Combine
 import Foundation
 import MapKit
 
+@MainActor
 final class MapViewModel: ObservableObject, Identifiable {
 
-  @Published var region = MKCoordinateRegion()
+  @Published var locations: [CLLocation] = []
 
   func makePolyline() -> MKPolyline {
     let coordinates = locations.map { $0.coordinate }
     return MKPolyline(coordinates: coordinates, count: coordinates.count)
   }
 
-  init(locations: [CLLocation]) {
-    self.locations = locations
+  init(locationService: LocationService) {
+    self.locationService = locationService
+    locationService.$route
+      .assign(to: \.locations, on: self)
+      .store(in: &cancellable)
   }
 
-  private let locations: [CLLocation]
+  private let locationService: LocationService
+  private var cancellable: Set<AnyCancellable> = []
 }
 
 final class MapDelegate: NSObject, MKMapViewDelegate {
@@ -32,4 +37,5 @@ final class MapDelegate: NSObject, MKMapViewDelegate {
     renderer.lineWidth = 5
     return renderer
   }
+
 }
