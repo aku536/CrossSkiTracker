@@ -8,10 +8,19 @@
 import SwiftUI
 
 @main
+@MainActor
 struct SkiTrackerApp: App {
-    var body: some Scene {
-        WindowGroup {
-            MainView().environment(\.locale, Locale(identifier: "ru_RU"))
-        }
+
+  var body: some Scene {
+    WindowGroup {
+      MainView().environment(\.locale, Locale(identifier: "ru_RU")).environmentObject(mainViewModel)
     }
+  }
+
+  private let locationService = LocationService()
+
+  private var mainViewModel: MainViewModel {
+    let mainViewModel = MainViewModel(trainingModel: TrainingModel(), locationService: locationService)
+    return mainViewModel
+  }
 }

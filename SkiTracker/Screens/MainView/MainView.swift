@@ -9,14 +9,18 @@ import SwiftUI
 
 struct MainView: View {
 
-  @ObservedObject var viewModel = MainViewModel()
+  @EnvironmentObject var viewModel: MainViewModel
 
   // MARK: - Body
 
   var body: some View {
-    if viewModel.inProgress {
+    switch viewModel.state {
+    case .notRunning:
+      startButton
+    case .active, .finished:
       NavigationView {
         VStack {
+
           VStack {
             timerLabel
             distanceLabel
@@ -35,8 +39,6 @@ struct MainView: View {
           stopButton
          }
       }
-    } else {
-      startButton
     }
   }
 
@@ -44,7 +46,7 @@ struct MainView: View {
 
   private var startButton: some View {
     Button(action: {
-      viewModel.inProgress = true
+      viewModel.state = .active
       Haptics.shared.play(.heavy)
     }, label: {
       Text("Старт")
@@ -57,7 +59,7 @@ struct MainView: View {
 
   private var stopButton: some View {
     Button(action: {
-      viewModel.inProgress = false
+      viewModel.state.toggle()
       Haptics.shared.notify(.success)
     }, label: {
       Text("Стоп")
@@ -70,7 +72,7 @@ struct MainView: View {
 
   private var timerLabel: some View {
     VStack {
-      Text(viewModel.date, style: .timer)
+      Text(viewModel.trainingTime, style: .timer)
       Text("Время")
         .font(.body)
     }
@@ -78,7 +80,8 @@ struct MainView: View {
 
   private var distanceLabel: some View {
     VStack {
-      Text(viewModel.distance, format: .measurement(width: .abbreviated, usage: .asProvided))
+      Text(Measurement(value: viewModel.trainingModel.distance, unit: UnitLength.kilometers) ,
+           format: .measurement(width: .abbreviated, usage: .asProvided))
       Text("Расстояние")
         .font(.body)
     }
@@ -86,7 +89,7 @@ struct MainView: View {
 
   private var elivationLabel: some View {
     VStack {
-      Text(viewModel.elevation, format: .measurement(width: .abbreviated,
+      Text(Measurement(value: viewModel.trainingModel.elevation, unit: UnitLength.meters), format: .measurement(width: .abbreviated,
                                                      usage: .asProvided,
                                                      numberFormatStyle: .number))
       Text("Перепад высот")
@@ -96,9 +99,9 @@ struct MainView: View {
 
   private var speedLabel: some View {
     VStack {
-      Text(viewModel.maxSpeed, format: .measurement(width: .abbreviated,
+      Text(Measurement(value: viewModel.trainingModel.maxSpeed, unit: UnitSpeed.kilometersPerHour) , format: .measurement(width: .abbreviated,
                                                     usage: .asProvided,
-                                                    numberFormatStyle: .number))
+                                                                  numberFormatStyle: .number))
       Text("Максимальная скорость")
         .font(.body)
     }

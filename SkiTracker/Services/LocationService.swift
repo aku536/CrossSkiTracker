@@ -10,11 +10,22 @@ import Foundation
 
 final class LocationService: NSObject {
 
-  let locationManager = CLLocationManager()
-  var startLocation: CLLocation?
-  var previousLocation: CLLocation?
-  var traveledDistance: Double = 0
-  var route: [CLLocation] = []
+  @Published var route: [CLLocation] = []
+
+  var startLocation: CLLocation? {
+    route.first
+  }
+
+  var previousLocation: CLLocation? {
+    route.last
+  }
+
+  var traveledDistance: Double {
+    route.indices.reduce(into: 0) { result, index in
+      guard index < route.count - 1 else { return }
+      result += route[index + 1].distance(from: route[index])
+    } / 1000
+  }
 
   var elevation: CLLocationDistance {
     guard !route.isEmpty else { return 0 }
@@ -30,37 +41,27 @@ final class LocationService: NSObject {
   func startLocating() async {
     if CLLocationManager.locationServicesEnabled() {
       locationManager.delegate = self
-      locationManager.desiredAccuracy = kCLLocationAccuracyBest
+      locationManager.allowsBackgroundLocationUpdates = true
+      locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
       locationManager.requestAlwaysAuthorization()
       locationManager.startUpdatingLocation()
+
     }
   }
 
   func stopLocating() {
     locationManager.stopUpdatingLocation()
-    startLocation = nil
+    route = []
   }
 
-  func getDistance() -> Double {
-    traveledDistance
-  }
-
-  func getRoute() -> [CLLocation] {
-    route
-  }
+  private let locationManager = CLLocationManager()
 }
+
+// MARK: - CLLocationManagerDelegate
 
 extension LocationService: CLLocationManagerDelegate {
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     route += locations
-    guard startLocation != nil else {
-      startLocation = locations.first
-      return
-    }
-    if let lastLocation = locations.last {
-      traveledDistance += previousLocation?.distance(from: lastLocation) ?? 0
-    }
-    previousLocation = locations.last
   }
 
   func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
