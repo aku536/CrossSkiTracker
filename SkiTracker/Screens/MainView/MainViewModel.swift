@@ -14,22 +14,40 @@ import SwiftUI
 @MainActor
 final class MainViewModel: ObservableObject, Identifiable {
 
+  enum State {
+    case notRunning
+    case active
+    case finished
+
+    mutating func toggle() {
+      switch self {
+      case .notRunning:
+        self = .active
+      case .active:
+        self = .finished
+      case .finished:
+        self = .notRunning
+      }
+    }
+  }
+
   // MARK: - Models
 
   @Published var trainingTime = Date()
-
   @Published var trainingModel: TrainingModel
 
-  var inProgress = false {
+  @Published var state: State = .notRunning {
     didSet {
-      if inProgress {
+      switch state {
+      case .notRunning:
+        trainingModel.trainingTime = 0
+      case .active:
         startTime = Date()
         timer = makeTimer()
         Task { await locationService.startLocating() }
-      } else {
+      case .finished:
         timer?.cancel()
         locationService.stopLocating()
-        trainingModel.trainingTime = 0
       }
     }
   }
@@ -58,7 +76,7 @@ final class MainViewModel: ObservableObject, Identifiable {
     Timer.publish(every: 1, tolerance: 0.1, on: .current, in: .common)
       .autoconnect()
       .sink { [weak self] _ in
-        guard let self, inProgress else { return }
+        guard let self, state == .active else { return }
         self.updateModel()
       }
   }

@@ -14,7 +14,10 @@ struct MainView: View {
   // MARK: - Body
 
   var body: some View {
-    if viewModel.inProgress {
+    switch viewModel.state {
+    case .notRunning:
+      startButton
+    case .active, .finished:
       NavigationView {
         VStack {
 
@@ -36,8 +39,6 @@ struct MainView: View {
           stopButton
          }
       }
-    } else {
-      startButton
     }
   }
 
@@ -45,7 +46,7 @@ struct MainView: View {
 
   private var startButton: some View {
     Button(action: {
-      viewModel.inProgress = true
+      viewModel.state = .active
       Haptics.shared.play(.heavy)
     }, label: {
       Text("Старт")
@@ -58,7 +59,7 @@ struct MainView: View {
 
   private var stopButton: some View {
     Button(action: {
-      viewModel.inProgress = false
+      viewModel.state.toggle()
       Haptics.shared.notify(.success)
     }, label: {
       Text("Стоп")
