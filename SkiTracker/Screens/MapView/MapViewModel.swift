@@ -12,30 +12,18 @@ import MapKit
 @MainActor
 final class MapViewModel: ObservableObject, Identifiable {
 
-  @Published var locations: [CLLocation] = []
-
-  func makePolyline() -> MKPolyline {
-    let coordinates = locations.map { $0.coordinate }
-    return MKPolyline(coordinates: coordinates, count: coordinates.count)
-  }
+  @Published var route: MKPolyline = MKPolyline()
 
   init(locationService: LocationService) {
     self.locationService = locationService
     locationService.$route
-      .assign(to: \.locations, on: self)
+      .sink { [weak self] locations in
+        let coordinates = locations.map { $0.coordinate }
+        self?.route = MKPolyline(coordinates: coordinates, count: coordinates.count)
+      }
       .store(in: &cancellable)
   }
 
   private let locationService: LocationService
   private var cancellable: Set<AnyCancellable> = []
-}
-
-final class MapDelegate: NSObject, MKMapViewDelegate {
-  func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-    let renderer = MKPolylineRenderer(overlay: overlay)
-    renderer.strokeColor = .blue
-    renderer.lineWidth = 5
-    return renderer
-  }
-
 }

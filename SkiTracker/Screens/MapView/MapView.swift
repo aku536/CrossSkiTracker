@@ -13,36 +13,38 @@ struct MapView: View {
 
   @ObservedObject var viewModel: MapViewModel
 
-  private let map = MyMapView()
-
   var body: some View {
-    map
-      .onReceive(viewModel.$locations, perform: { kek in
-        map.addOverlay(viewModel.makePolyline())
-      })
+    MyMapView(viewModel: viewModel)
       .edgesIgnoringSafeArea(.all)
   }
 }
 
 struct MyMapView: UIViewRepresentable {
 
-  let delegate = MapDelegate()
-  private let map = MKMapView()
+  @ObservedObject var viewModel: MapViewModel
+
+  func makeCoordinator() -> MapDelegate {
+    MapDelegate()
+  }
 
   func makeUIView(context: Context) -> MKMapView {
+    let map = MKMapView()
     map.region = MKCoordinateRegion(center: .init(latitude: 55.583957, longitude: 37.543354), latitudinalMeters: 10000, longitudinalMeters: 10000)
     map.userTrackingMode = .followWithHeading
-    map.delegate = delegate
+    map.delegate = context.coordinator
     return map
   }
 
   func updateUIView(_ uiView: MKMapView, context: Self.Context) {
-    uiView.setNeedsDisplay()
+    uiView.addOverlay(viewModel.route, level: .aboveLabels)
   }
 
-  @discardableResult
-  func addOverlay(_ overlay: MKOverlay) -> some View {
-    map.addOverlay(overlay, level: .aboveLabels)
-    return self
+  final class MapDelegate: NSObject, MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+      let renderer = MKPolylineRenderer(overlay: overlay)
+      renderer.strokeColor = .blue
+      renderer.lineWidth = 5
+      return renderer
+    }
   }
 }
