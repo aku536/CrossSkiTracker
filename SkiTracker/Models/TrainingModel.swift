@@ -7,11 +7,12 @@
 
 import Foundation
 
-struct TrainingModel {
+struct TrainingModel: Identifiable {
   var trainingTime: Double
   var distance: Double
   var elevation: Double
   var maxSpeed: Double
+  var id: UUID = UUID()
 }
 
 extension TrainingModel {

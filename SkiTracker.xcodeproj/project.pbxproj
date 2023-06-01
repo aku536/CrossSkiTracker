@@ -17,6 +17,10 @@
 		D2201FC929C654B2006C5C42 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2201FC829C654B2006C5C42 /* MapView.swift */; };
 		D2201FCD29C65521006C5C42 /* trassa2021-2022.gpx in Resources */ = {isa = PBXBuildFile; fileRef = D2201FCC29C65521006C5C42 /* trassa2021-2022.gpx */; };
 		D241003429C4FC2300BBCE39 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D241003329C4FC2300BBCE39 /* LocationService.swift */; };
+		D280BE252A290A0200BA8BA6 /* Training.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D280BE232A290A0200BA8BA6 /* Training.xcdatamodeld */; };
+		D280BE272A290A8300BA8BA6 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D280BE262A290A8300BA8BA6 /* StorageService.swift */; };
+		D280BE2A2A29152A00BA8BA6 /* TrainingsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D280BE292A29152A00BA8BA6 /* TrainingsListView.swift */; };
+		D280BE2C2A29159200BA8BA6 /* TrainingsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D280BE2B2A29159200BA8BA6 /* TrainingsListViewModel.swift */; };
 		D2E20E7C29C8F31700F0F862 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E20E7B29C8F31700F0F862 /* MapViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +37,10 @@
 		D2201FC829C654B2006C5C42 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		D2201FCC29C65521006C5C42 /* trassa2021-2022.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "trassa2021-2022.gpx"; sourceTree = "<group>"; };
 		D241003329C4FC2300BBCE39 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		D280BE242A290A0200BA8BA6 /* Training.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Training.xcdatamodel; sourceTree = "<group>"; };
+		D280BE262A290A8300BA8BA6 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		D280BE292A29152A00BA8BA6 /* TrainingsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingsListView.swift; sourceTree = "<group>"; };
+		D280BE2B2A29159200BA8BA6 /* TrainingsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingsListViewModel.swift; sourceTree = "<group>"; };
 		D2E20E7B29C8F31700F0F862 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -97,6 +105,7 @@
 		D21FF3F52A156A6E00CA9154 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				D280BE282A29151700BA8BA6 /* TrainingsList */,
 				D2201FC629C65481006C5C42 /* MainView */,
 				D2201FC729C654A4006C5C42 /* MapView */,
 			);
@@ -132,6 +141,7 @@
 		D2201FCA29C654F5006C5C42 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				D280BE1F2A29099A00BA8BA6 /* Storage */,
 				D241003329C4FC2300BBCE39 /* LocationService.swift */,
 			);
 			path = Services;
@@ -144,6 +154,32 @@
 				D21F189429C4C50600031FE3 /* Assets.xcassets */,
 			);
 			path = MediaFiles;
+			sourceTree = "<group>";
+		};
+		D280BE1F2A29099A00BA8BA6 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				D280BE202A2909A900BA8BA6 /* Models */,
+				D280BE262A290A8300BA8BA6 /* StorageService.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		D280BE202A2909A900BA8BA6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D280BE232A290A0200BA8BA6 /* Training.xcdatamodeld */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D280BE282A29151700BA8BA6 /* TrainingsList */ = {
+			isa = PBXGroup;
+			children = (
+				D280BE292A29152A00BA8BA6 /* TrainingsListView.swift */,
+				D280BE2B2A29159200BA8BA6 /* TrainingsListViewModel.swift */,
+			);
+			path = TrainingsList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -218,9 +254,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				D21FF3F42A15522F00CA9154 /* Haptics.swift in Sources */,
+				D280BE2A2A29152A00BA8BA6 /* TrainingsListView.swift in Sources */,
 				D21F189329C4C50500031FE3 /* MainView.swift in Sources */,
 				D21F189129C4C50500031FE3 /* SkiTrackerApp.swift in Sources */,
 				D21FF3F82A156AD700CA9154 /* TrainingModel.swift in Sources */,
+				D280BE252A290A0200BA8BA6 /* Training.xcdatamodeld in Sources */,
+				D280BE2C2A29159200BA8BA6 /* TrainingsListViewModel.swift in Sources */,
+				D280BE272A290A8300BA8BA6 /* StorageService.swift in Sources */,
 				D2201FC929C654B2006C5C42 /* MapView.swift in Sources */,
 				D241003429C4FC2300BBCE39 /* LocationService.swift in Sources */,
 				D21F1DB729C4F0BC00031FE3 /* MainViewModel.swift in Sources */,
@@ -437,6 +477,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D280BE232A290A0200BA8BA6 /* Training.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D280BE242A290A0200BA8BA6 /* Training.xcdatamodel */,
+			);
+			currentVersion = D280BE242A290A0200BA8BA6 /* Training.xcdatamodel */;
+			path = Training.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = D21F188529C4C50500031FE3 /* Project object */;
 }

@@ -14,23 +14,6 @@ import SwiftUI
 @MainActor
 final class MainViewModel: ObservableObject, Identifiable {
 
-  enum State {
-    case notRunning
-    case active
-    case finished
-
-    mutating func toggle() {
-      switch self {
-      case .notRunning:
-        self = .active
-      case .active:
-        self = .finished
-      case .finished:
-        self = .notRunning
-      }
-    }
-  }
-
   // MARK: - Models
 
   @Published var trainingTime = Date()
@@ -47,9 +30,18 @@ final class MainViewModel: ObservableObject, Identifiable {
         Task { await locationService.startLocating() }
       case .finished:
         timer?.cancel()
+        timer = nil
         locationService.stopLocating()
       }
     }
+  }
+
+  func saveTraining() {
+    storageService.save(trainingModel)
+  }
+
+  func resetTraining() {
+    trainingModel = TrainingModel()
   }
 
   func didTapMapOpen() -> MapView {
@@ -59,9 +51,10 @@ final class MainViewModel: ObservableObject, Identifiable {
 
   // MARK: - Init
 
-  init(trainingModel: TrainingModel, locationService: LocationService) {
+  init(trainingModel: TrainingModel, locationService: LocationService, storageService: StorageService) {
     self.trainingModel = trainingModel
     self.locationService = locationService
+    self.storageService = storageService
   }
 
   // MARK: - Private
@@ -69,6 +62,7 @@ final class MainViewModel: ObservableObject, Identifiable {
   private var startTime = Date()
 
   private let locationService: LocationService
+  private let storageService: StorageService
 
   private var timer: AnyCancellable?
 
@@ -79,6 +73,23 @@ final class MainViewModel: ObservableObject, Identifiable {
         guard let self, state == .active else { return }
         self.updateModel()
       }
+  }
+
+  enum State {
+    case notRunning
+    case active
+    case finished
+
+    mutating func toggle() {
+      switch self {
+      case .notRunning:
+        self = .active
+      case .active:
+        self = .finished
+      case .finished:
+        self = .notRunning
+      }
+    }
   }
 }
 

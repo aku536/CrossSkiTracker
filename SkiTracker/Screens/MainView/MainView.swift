@@ -18,26 +18,45 @@ struct MainView: View {
     case .notRunning:
       startButton
     case .active, .finished:
-      NavigationView {
-        VStack {
+      TabView {
 
+        NavigationView {
           VStack {
-            timerLabel
-            distanceLabel
-            elivationLabel
-            speedLabel
+
+            VStack {
+              timerLabel
+              distanceLabel
+              elivationLabel
+              speedLabel
+            }
+            .font(.largeTitle)
+            .padding()
+
+            NavigationLink(destination: {
+              viewModel.didTapMapOpen()
+            }, label: {
+              Text("Открыть карту")
+            })
+
+            switch viewModel.state {
+            case .active:
+              stopButton
+            case .finished:
+              endButtons
+            default:
+              Spacer()
+            }
           }
-          .font(.largeTitle)
-          .padding()
+        }
+        .tabItem {
+          Label("Тренировка", systemImage: "tray.and.arrow.down.fill")
+        }
 
-          NavigationLink(destination: {
-            viewModel.didTapMapOpen()
-          }, label: {
-            Text("Открыть карту")
-          })
+        TrainingsListView()
+          .tabItem {
+            Label("Список", systemImage: "tray.and.arrow.down.fill")
+          }
 
-          stopButton
-         }
       }
     }
   }
@@ -60,7 +79,7 @@ struct MainView: View {
   private var stopButton: some View {
     Button(action: {
       viewModel.state.toggle()
-      Haptics.shared.notify(.success)
+      Haptics.shared.notify(.warning)
     }, label: {
       Text("Стоп")
         .foregroundColor(.white)
@@ -68,6 +87,35 @@ struct MainView: View {
     .frame(width: 50, height: 50)
     .background(.red)
     .cornerRadius(10)
+  }
+
+  private var endButtons: some View {
+    VStack {
+      Button(action: {
+        viewModel.saveTraining()
+        Haptics.shared.notify(.success)
+        viewModel.state.toggle()
+      }, label: {
+        Text("Сохранить")
+          .foregroundColor(.white)
+      })
+      .background(.green)
+      .frame(width: 150, height: 50)
+      .cornerRadius(10)
+
+      Spacer()
+
+      Button(action: {
+        viewModel.state.toggle()
+        Haptics.shared.notify(.error)
+      }, label: {
+        Text("Сбросить")
+          .foregroundColor(.white)
+      })
+      .background(.red)
+      .frame(width: 150, height: 50)
+      .cornerRadius(10)
+    }
   }
 
   private var timerLabel: some View {
@@ -112,6 +160,14 @@ struct MainView: View {
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
-    MainView().environment(\.locale, Locale(identifier: "ru_RU"))
+    MainView()
+      .environment(\.locale, Locale(identifier: "ru_RU"))
+      .environmentObject(
+        MainViewModel(
+          trainingModel: TrainingModel(),
+          locationService: LocationService(),
+          storageService: StorageService()
+        )
+      )
   }
 }
