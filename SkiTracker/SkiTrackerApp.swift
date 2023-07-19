@@ -15,7 +15,6 @@ struct SkiTrackerApp: App {
     WindowGroup {
       MainView().environment(\.locale, Locale(identifier: "ru_RU"))
         .environmentObject(mainViewModel)
-        .environmentObject(trainingsListViewModel)
     }
   }
 
@@ -27,9 +26,5 @@ struct SkiTrackerApp: App {
                                       locationService: locationService,
                                       storageService: storageService)
     return mainViewModel
-  }
-
-  private var trainingsListViewModel: TrainingsListViewModel {
-    TrainingsListViewModel(storageService: storageService)
   }
 }

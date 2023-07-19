@@ -16,11 +16,12 @@
 		D21FF3F82A156AD700CA9154 /* TrainingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21FF3F72A156AD700CA9154 /* TrainingModel.swift */; };
 		D2201FC929C654B2006C5C42 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2201FC829C654B2006C5C42 /* MapView.swift */; };
 		D2201FCD29C65521006C5C42 /* trassa2021-2022.gpx in Resources */ = {isa = PBXBuildFile; fileRef = D2201FCC29C65521006C5C42 /* trassa2021-2022.gpx */; };
+		D23490DB2A5C4DCF00EE53D8 /* TrainingProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D23490DA2A5C4DCF00EE53D8 /* TrainingProgressView.swift */; };
+		D23490DD2A5C537500EE53D8 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D23490DC2A5C537500EE53D8 /* Int+Extensions.swift */; };
 		D241003429C4FC2300BBCE39 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D241003329C4FC2300BBCE39 /* LocationService.swift */; };
 		D280BE252A290A0200BA8BA6 /* Training.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D280BE232A290A0200BA8BA6 /* Training.xcdatamodeld */; };
 		D280BE272A290A8300BA8BA6 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D280BE262A290A8300BA8BA6 /* StorageService.swift */; };
 		D280BE2A2A29152A00BA8BA6 /* TrainingsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D280BE292A29152A00BA8BA6 /* TrainingsListView.swift */; };
-		D280BE2C2A29159200BA8BA6 /* TrainingsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D280BE2B2A29159200BA8BA6 /* TrainingsListViewModel.swift */; };
 		D2E20E7C29C8F31700F0F862 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E20E7B29C8F31700F0F862 /* MapViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -36,11 +37,12 @@
 		D21FF3F72A156AD700CA9154 /* TrainingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingModel.swift; sourceTree = "<group>"; };
 		D2201FC829C654B2006C5C42 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		D2201FCC29C65521006C5C42 /* trassa2021-2022.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "trassa2021-2022.gpx"; sourceTree = "<group>"; };
+		D23490DA2A5C4DCF00EE53D8 /* TrainingProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingProgressView.swift; sourceTree = "<group>"; };
+		D23490DC2A5C537500EE53D8 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		D241003329C4FC2300BBCE39 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		D280BE242A290A0200BA8BA6 /* Training.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Training.xcdatamodel; sourceTree = "<group>"; };
 		D280BE262A290A8300BA8BA6 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		D280BE292A29152A00BA8BA6 /* TrainingsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingsListView.swift; sourceTree = "<group>"; };
-		D280BE2B2A29159200BA8BA6 /* TrainingsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingsListViewModel.swift; sourceTree = "<group>"; };
 		D2E20E7B29C8F31700F0F862 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				D21FF3F32A15522F00CA9154 /* Haptics.swift */,
+				D23490DC2A5C537500EE53D8 /* Int+Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -105,7 +108,6 @@
 		D21FF3F52A156A6E00CA9154 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				D280BE282A29151700BA8BA6 /* TrainingsList */,
 				D2201FC629C65481006C5C42 /* MainView */,
 				D2201FC729C654A4006C5C42 /* MapView */,
 			);
@@ -124,6 +126,8 @@
 			isa = PBXGroup;
 			children = (
 				D21F189229C4C50500031FE3 /* MainView.swift */,
+				D23490DA2A5C4DCF00EE53D8 /* TrainingProgressView.swift */,
+				D280BE292A29152A00BA8BA6 /* TrainingsListView.swift */,
 				D21F1DB629C4F0BC00031FE3 /* MainViewModel.swift */,
 			);
 			path = MainView;
@@ -173,15 +177,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		D280BE282A29151700BA8BA6 /* TrainingsList */ = {
-			isa = PBXGroup;
-			children = (
-				D280BE292A29152A00BA8BA6 /* TrainingsListView.swift */,
-				D280BE2B2A29159200BA8BA6 /* TrainingsListViewModel.swift */,
-			);
-			path = TrainingsList;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -210,7 +205,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1410;
-				LastUpgradeCheck = 1410;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					D21F188C29C4C50500031FE3 = {
 						CreatedOnToolsVersion = 14.1;
@@ -254,12 +249,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				D21FF3F42A15522F00CA9154 /* Haptics.swift in Sources */,
+				D23490DD2A5C537500EE53D8 /* Int+Extensions.swift in Sources */,
 				D280BE2A2A29152A00BA8BA6 /* TrainingsListView.swift in Sources */,
 				D21F189329C4C50500031FE3 /* MainView.swift in Sources */,
 				D21F189129C4C50500031FE3 /* SkiTrackerApp.swift in Sources */,
 				D21FF3F82A156AD700CA9154 /* TrainingModel.swift in Sources */,
+				D23490DB2A5C4DCF00EE53D8 /* TrainingProgressView.swift in Sources */,
 				D280BE252A290A0200BA8BA6 /* Training.xcdatamodeld in Sources */,
-				D280BE2C2A29159200BA8BA6 /* TrainingsListViewModel.swift in Sources */,
 				D280BE272A290A8300BA8BA6 /* StorageService.swift in Sources */,
 				D2201FC929C654B2006C5C42 /* MapView.swift in Sources */,
 				D241003429C4FC2300BBCE39 /* LocationService.swift in Sources */,
@@ -307,6 +303,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -367,6 +364,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

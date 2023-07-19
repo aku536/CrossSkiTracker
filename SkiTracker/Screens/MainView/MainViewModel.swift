@@ -36,8 +36,20 @@ final class MainViewModel: ObservableObject, Identifiable {
     }
   }
 
+  @Published var savedTrainings: [TrainingModel] = []
+
+  func loadTrainings() async {
+    savedTrainings = storageService.loadTrainings()
+  }
+
   func saveTraining() {
     storageService.save(trainingModel)
+    savedTrainings += [trainingModel]
+  }
+
+  func deleteTraining(with id: UUID) {
+    storageService.deleteTraining(with: id)
+    savedTrainings.removeAll { $0.id == id }
   }
 
   func resetTraining() {
@@ -55,6 +67,10 @@ final class MainViewModel: ObservableObject, Identifiable {
     self.trainingModel = trainingModel
     self.locationService = locationService
     self.storageService = storageService
+
+    Task {
+//      await loadTrainings()
+    }
   }
 
   // MARK: - Private
@@ -95,10 +111,11 @@ final class MainViewModel: ObservableObject, Identifiable {
 
 private extension MainViewModel {
   func updateModel() {
-    trainingModel.trainingTime = Date().timeIntervalSince(startTime)
+    trainingModel.trainingTime = Int(Date().timeIntervalSince(startTime))
     trainingTime = Date(timeInterval: 0, since: startTime)
     trainingModel.distance = locationService.traveledDistance
     trainingModel.elevation = locationService.elevation
     trainingModel.maxSpeed = locationService.maxSpeed
+    trainingModel.date = startTime
   }
 }

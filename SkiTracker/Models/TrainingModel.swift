@@ -8,15 +8,16 @@
 import Foundation
 
 struct TrainingModel: Identifiable {
-  var trainingTime: Double
+  var trainingTime: Int
   var distance: Double
   var elevation: Double
   var maxSpeed: Double
   var id: UUID = UUID()
+  var date: Date
 }
 
 extension TrainingModel {
   init() {
-    self.init(trainingTime: 0, distance: 0, elevation: 0, maxSpeed: 0)
+    self.init(trainingTime: 0, distance: 0, elevation: 0, maxSpeed: 0, date: Date())
   }
 }

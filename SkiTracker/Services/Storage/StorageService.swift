@@ -19,23 +19,33 @@ final class StorageService {
     trainingObject.setValue(training.distance, forKeyPath: "distance")
     trainingObject.setValue(training.elevation, forKeyPath: "elevation")
     trainingObject.setValue(training.maxSpeed, forKeyPath: "maxSpeed")
+    trainingObject.setValue(training.date, forKeyPath: "date")
 
     try! managedContext.save()
   }
 
   func loadTrainings() -> [TrainingModel] {
-    let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Training")
-    let trainings = try! managedContext.fetch(fetchRequest)
+    let trainings = fetchTrainings()
 
     return trainings.map {
       TrainingModel(
-        trainingTime: $0.value(forKey: "duration") as! Double,
+        trainingTime: $0.value(forKey: "duration") as! Int,
         distance: $0.value(forKey: "distance") as! Double,
         elevation: $0.value(forKey: "elevation") as! Double,
         maxSpeed: $0.value(forKey: "maxSpeed") as! Double,
-        id: $0.value(forKey: "id") as! UUID
+        id: $0.value(forKey: "id") as! UUID,
+        date: ($0.value(forKey: "date") as? Date) ?? Date(timeIntervalSince1970: 0)
       )
     }
+  }
+
+  func deleteTraining(with id: UUID) {
+    fetchTrainings().forEach {
+      if ($0.value(forKey: "id") as! UUID) == id {
+        managedContext.delete($0)
+      }
+    }
+
   }
 
   private lazy var persistentContainer: NSPersistentContainer = {
@@ -45,8 +55,17 @@ final class StorageService {
     }
     return container
   }()
+}
 
-  private var managedContext: NSManagedObjectContext {
+// MARK: - Private
+
+private extension StorageService {
+  var managedContext: NSManagedObjectContext {
     persistentContainer.viewContext
+  }
+
+  func fetchTrainings() -> [NSManagedObject] {
+    let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Training")
+    return try! managedContext.fetch(fetchRequest)
   }
 }

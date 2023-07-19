@@ -14,50 +14,26 @@ struct MainView: View {
   // MARK: - Body
 
   var body: some View {
-    switch viewModel.state {
-    case .notRunning:
-      startButton
-    case .active, .finished:
-      TabView {
+    TabView {
 
-        NavigationView {
-          VStack {
-
-            VStack {
-              timerLabel
-              distanceLabel
-              elivationLabel
-              speedLabel
-            }
-            .font(.largeTitle)
-            .padding()
-
-            NavigationLink(destination: {
-              viewModel.didTapMapOpen()
-            }, label: {
-              Text("Открыть карту")
-            })
-
-            switch viewModel.state {
-            case .active:
-              stopButton
-            case .finished:
-              endButtons
-            default:
-              Spacer()
-            }
+      switch viewModel.state {
+      case .notRunning:
+        startButton
+          .tabItem {
+            Label("Тренировка", systemImage: "tray.and.arrow.down.fill")
           }
-        }
+
+      case .active, .finished:
+        TrainingProgressView()
         .tabItem {
           Label("Тренировка", systemImage: "tray.and.arrow.down.fill")
         }
-
-        TrainingsListView()
-          .tabItem {
-            Label("Список", systemImage: "tray.and.arrow.down.fill")
-          }
-
       }
+
+      TrainingsListView()
+        .tabItem {
+          Label("Список", systemImage: "tray.and.arrow.down.fill")
+        }
     }
   }
 
@@ -74,85 +50,6 @@ struct MainView: View {
     .frame(width: 100, height: 100)
     .background(.green)
     .cornerRadius(100/2)
-  }
-
-  private var stopButton: some View {
-    Button(action: {
-      viewModel.state.toggle()
-      Haptics.shared.notify(.warning)
-    }, label: {
-      Text("Стоп")
-        .foregroundColor(.white)
-    })
-    .frame(width: 50, height: 50)
-    .background(.red)
-    .cornerRadius(10)
-  }
-
-  private var endButtons: some View {
-    VStack {
-      Button(action: {
-        viewModel.saveTraining()
-        Haptics.shared.notify(.success)
-        viewModel.state.toggle()
-      }, label: {
-        Text("Сохранить")
-          .foregroundColor(.white)
-      })
-      .background(.green)
-      .frame(width: 150, height: 50)
-      .cornerRadius(10)
-
-      Spacer()
-
-      Button(action: {
-        viewModel.state.toggle()
-        Haptics.shared.notify(.error)
-      }, label: {
-        Text("Сбросить")
-          .foregroundColor(.white)
-      })
-      .background(.red)
-      .frame(width: 150, height: 50)
-      .cornerRadius(10)
-    }
-  }
-
-  private var timerLabel: some View {
-    VStack {
-      Text(viewModel.trainingTime, style: .timer)
-      Text("Время")
-        .font(.body)
-    }
-  }
-
-  private var distanceLabel: some View {
-    VStack {
-      Text(Measurement(value: viewModel.trainingModel.distance, unit: UnitLength.kilometers) ,
-           format: .measurement(width: .abbreviated, usage: .asProvided))
-      Text("Расстояние")
-        .font(.body)
-    }
-  }
-
-  private var elivationLabel: some View {
-    VStack {
-      Text(Measurement(value: viewModel.trainingModel.elevation, unit: UnitLength.meters), format: .measurement(width: .abbreviated,
-                                                     usage: .asProvided,
-                                                     numberFormatStyle: .number))
-      Text("Перепад высот")
-        .font(.body)
-    }
-  }
-
-  private var speedLabel: some View {
-    VStack {
-      Text(Measurement(value: viewModel.trainingModel.maxSpeed, unit: UnitSpeed.kilometersPerHour) , format: .measurement(width: .abbreviated,
-                                                    usage: .asProvided,
-                                                                  numberFormatStyle: .number))
-      Text("Максимальная скорость")
-        .font(.body)
-    }
   }
 }
 
