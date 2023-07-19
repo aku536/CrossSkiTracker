@@ -14,23 +14,6 @@ import SwiftUI
 @MainActor
 final class MainViewModel: ObservableObject, Identifiable {
 
-  enum State {
-    case notRunning
-    case active
-    case finished
-
-    mutating func toggle() {
-      switch self {
-      case .notRunning:
-        self = .active
-      case .active:
-        self = .finished
-      case .finished:
-        self = .notRunning
-      }
-    }
-  }
-
   // MARK: - Models
 
   @Published var trainingTime = Date()
@@ -47,9 +30,30 @@ final class MainViewModel: ObservableObject, Identifiable {
         Task { await locationService.startLocating() }
       case .finished:
         timer?.cancel()
+        timer = nil
         locationService.stopLocating()
       }
     }
+  }
+
+  @Published var savedTrainings: [TrainingModel] = []
+
+  func loadTrainings() async {
+    savedTrainings = storageService.loadTrainings()
+  }
+
+  func saveTraining() {
+    storageService.save(trainingModel)
+    savedTrainings += [trainingModel]
+  }
+
+  func deleteTraining(with id: UUID) {
+    storageService.deleteTraining(with: id)
+    savedTrainings.removeAll { $0.id == id }
+  }
+
+  func resetTraining() {
+    trainingModel = TrainingModel()
   }
 
   func didTapMapOpen() -> MapView {
@@ -59,9 +63,14 @@ final class MainViewModel: ObservableObject, Identifiable {
 
   // MARK: - Init
 
-  init(trainingModel: TrainingModel, locationService: LocationService) {
+  init(trainingModel: TrainingModel, locationService: LocationService, storageService: StorageService) {
     self.trainingModel = trainingModel
     self.locationService = locationService
+    self.storageService = storageService
+
+    Task {
+//      await loadTrainings()
+    }
   }
 
   // MARK: - Private
@@ -69,6 +78,7 @@ final class MainViewModel: ObservableObject, Identifiable {
   private var startTime = Date()
 
   private let locationService: LocationService
+  private let storageService: StorageService
 
   private var timer: AnyCancellable?
 
@@ -80,14 +90,32 @@ final class MainViewModel: ObservableObject, Identifiable {
         self.updateModel()
       }
   }
+
+  enum State {
+    case notRunning
+    case active
+    case finished
+
+    mutating func toggle() {
+      switch self {
+      case .notRunning:
+        self = .active
+      case .active:
+        self = .finished
+      case .finished:
+        self = .notRunning
+      }
+    }
+  }
 }
 
 private extension MainViewModel {
   func updateModel() {
-    trainingModel.trainingTime = Date().timeIntervalSince(startTime)
+    trainingModel.trainingTime = Int(Date().timeIntervalSince(startTime))
     trainingTime = Date(timeInterval: 0, since: startTime)
     trainingModel.distance = locationService.traveledDistance
     trainingModel.elevation = locationService.elevation
     trainingModel.maxSpeed = locationService.maxSpeed
+    trainingModel.date = startTime
   }
 }

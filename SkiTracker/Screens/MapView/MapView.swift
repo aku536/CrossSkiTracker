@@ -29,14 +29,16 @@ struct MyMapView: UIViewRepresentable {
 
   func makeUIView(context: Context) -> MKMapView {
     let map = MKMapView()
-    map.region = MKCoordinateRegion(center: .init(latitude: 55.583957, longitude: 37.543354), latitudinalMeters: 10000, longitudinalMeters: 10000)
-    map.userTrackingMode = .followWithHeading
+    map.region = MKCoordinateRegion(center: viewModel.route.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
+    map.userTrackingMode = .follow
+    map.showsUserLocation = true
     map.delegate = context.coordinator
     return map
   }
 
   func updateUIView(_ uiView: MKMapView, context: Self.Context) {
     uiView.addOverlay(viewModel.route, level: .aboveLabels)
+    uiView.setRegion(MKCoordinateRegion(center: viewModel.route.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000), animated: true)
   }
 
   final class MapDelegate: NSObject, MKMapViewDelegate {
